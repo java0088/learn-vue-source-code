@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div class="box">
+    <ol>
+      {{ #students }}
+      <li>
+        学生{{ item.name }}的爱好是
+        <ol>
+          {{# item.hobbies }}
+          <li>{{.}}</li>
+          {{/ item.hobbies }}
+        </ol>
+      </li>
+      {{ /students }}
+    </ol>
+  </div>
+  <div class="box2">
+      <ol>
+        {{ #fruits }}
+          <li>
+            {{ . }}
+          </li>
+        {{ /fruits }}
+      </ol>
+  </div>
+  <script src="/xuni/bundle.js"></script>
+
+  <script>
+    const box = document.querySelector('.box')
+    const box2 = document.querySelector('.box2')
+
+    const students = [
+      { name: '小明', hobbies: ['游泳1', '健身1'] },
+      { name: '小红', hobbies: ['游泳2', '健身2'] },
+      { name: '小花', hobbies: ['游泳3', '健身3'] }
+    ]
+    const fruits = [ '苹果', '香蕉' ]
+
+    const resultHtml = SSG_TemlateEngine.render(box.innerHTML, { students })
+    box.innerHTML = resultHtml
+    const resultHtml2 = SSG_TemlateEngine.render(box2.innerHTML, { fruits })
+    box2.innerHTML = resultHtml2
+    // SSG_TemlateEngine.render(tenplateArr2, { fruits })
+    // SSG_TemlateEngine.render(template, data)
+  </script>
+</body>
+</html>

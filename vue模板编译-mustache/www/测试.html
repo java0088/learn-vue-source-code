@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+  <ul>
+    <li>
+      <p></p>
+    </li>
+  </ul>
+  <script src="/xuni/bundle.js"></script>
+
+  <script>
+    const tenplateArr = `
+      <div>
+        <ol>
+          {{ #students }}
+          <li>
+            学生{{ item.name }}的爱好是
+            <ol>
+              {{# item.hobbies }}
+              <li>{{.}}</li>
+              {{/ item.hobbies }}
+            </ol>
+          </li>
+          {{ /students }}
+        </ol>
+      </div>
+    `
+
+    const tenplateArr2 = `
+      <div>
+        <ol>
+          {{#fruits}}
+            <li>
+              学生{{ . }}的爱好是
+            </li>
+          {{/fruits}}
+        </ol>
+      </div>
+    `
+    const students = [
+      { name: '小明', hobbies: ['游泳1', '健身1'] },
+      { name: '小红', hobbies: ['游泳2', '健身2'] },
+      { name: '小花', hobbies: ['游泳3', '健身3'] }
+    ]
+    const fruits = [
+      '苹果',
+      '香蕉'
+    ]
+    const template = '我买了一个{{      thing     }}，好{{ mood }}啊！，我叫{{obj.name}}'
+    const data = {
+      thing: '苹果',
+      mood: '开心',
+      obj: {
+        name: '小黄'
+      }
+    }
+    // SSG_TemlateEngine.render(tenplateArr, { students })
+    SSG_TemlateEngine.render(tenplateArr2, { fruits })
+    // SSG_TemlateEngine.render(template, data)
+  </script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div class="content"></div>
+  <script>
+    const content = document.querySelector('.content')
+    const defaultMethods = [
+      'push',
+      'pop',
+      'shift',
+      'unshift',
+      'splice',
+      'sort',
+      'reverse'
+    ]
+
+    const arrayProto = Array.prototype
+    const arrayMethods = Object.create(arrayProto)
+
+    defaultMethods.forEach(methodName => {
+      const original = arrayMethods[methodName]
+      defindReactive(arrayMethods, methodName, function(this) {
+        console.log('啦啦啦');
+      }, false)
+    }) 
+
+
+    console.log(arrayMethods);
+    function defindReactive(data, key, val, enumerable = false) {
+      if (arguments.length === 2) {
+        val = data[key]
+      }
+      Object.defineProperty(data, key, {
+        enumerable,
+        get() {
+          console.log(`您试图访问${key}属性，值为：${val}`)
+          return val
+        },
+        set(newValue) {
+          val = newValue
+        }
+      })
+    }
+
+    class Observer {
+      constructor(value) {
+        console.log('我是Observer构造器');
+        defindReactive(value, '__ob__', this,)
+        this.walk(value)
+      }
+
+      walk(value) {
+        if (typeof value !== 'object') return
+        for(let key in value) {
+          if (typeof value[key] === 'object') {
+            observer(value[key])
+          } else {
+            defindReactive(value, key)
+          }
+        }
+      }
+    }
+    function observer(value) {
+      if (typeof value !== 'object') return
+      let ob
+      if (value.__ob__ ) {
+        ob = value.__ob__
+      } else {
+        ob = new Observer(value)
+      }
+      return ob
+    }
+
+  </script>
+</body>
+</html>

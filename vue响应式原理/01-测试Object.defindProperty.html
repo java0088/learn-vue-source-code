@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div class="content"></div>
+  <input class="input" type="text">
+  <button class="btn">设置</button>
+  <script>
+    const content = document.querySelector('.content')
+    const btn = document.querySelector('.btn')
+    const input = document.querySelector('.input')
+
+    function defindReactive(data, key, val) {
+      Object.defineProperty(data, key, {
+        get() {
+          return val
+        },
+        set(newValue) {
+          content.innerHTML = newValue
+          val = newValue
+        }
+      })
+    }
+
+    class Observer {
+      constructor() {
+        console.log('我是Observer构造器');
+      }
+    }
+    function observer(data) {
+      if (typeof data !== 'object') return
+      let ob
+      if (data.__ob__ ) {
+        ob = data.__ob__
+      } else {
+        ob = new Observer(data)
+      }
+
+      return ob
+    }
+
+    const obj = {}
+    defindReactive(obj, 'a', '啦啦啦')
+    btn.onclick = function() {
+      obj.a = input.value
+    }
+  </script>
+</body>
+</html>
